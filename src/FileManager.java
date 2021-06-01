@@ -22,7 +22,7 @@ public class FileManager {
         DocumentBuilder builder = factory.newDocumentBuilder();
          
         //Build Document
-        Document document = builder.parse(new File("C:/Users/Второй/Documents/GitHub/Fifth_lab/data/Organizations.xml"));
+        Document document = builder.parse(new File("C:/Users/Второй/Documents/GitHub/Lab_5/Organizations.xml"));
          
         //Normalize the XML Structure
         document.getDocumentElement().normalize();

@@ -19,7 +19,7 @@ class ComLineInterface
         sc.close();  // closing scanner from fetchCommand method
     }
     */
-    public static void fetchCommand(ArrayList orgList)
+    public static void fetchCommand()
     {
         System.out.print(">>>");
         String command = sc.nextLine();
@@ -49,7 +49,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("add"):
-               executeAdd(orgList);
+               executeAdd();
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -121,53 +121,28 @@ class ComLineInterface
     {
         System.out.printf("help : вывести справку по доступным командам%ninfo : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)%nshow : вывести в стандартный поток вывода все элементы коллекции в строковом представлении%nadd {element} : добавить новый элемент в коллекцию%nupdate id {element} : обновить значение элемента коллекции, id которого равен заданному%nremove_by_id id : удалить элемент из коллекции по его id%nclear : очистить коллекцию%nsave : сохранить коллекцию в файл%nexecute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.%nexit : завершить программу (без сохранения в файл)%nremove_first : удалить первый элемент из коллекции%nremove_last : удалить последний элемент из коллекции%nshuffle : перемешать элементы коллекции в случайном порядке%ncount_by_postal_address postalAddress : вывести количество элементов, значение поля postalAddress которых равно заданному%nfilter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки%nprint_descending : вывести элементы коллекции в порядке убывания");
     }
-    public static ArrayList executeAdd(ArrayList orgList)
+    public static void executeAdd()
     {
         System.out.println("Инициируем добавление нового элемента в коллекцию...");
-        
-        // start scanner
-        //Scanner in = new Scanner(System.in);
-        
-        System.out.printf("Введите имя организации:%n>>>");
-        /*if (sc.hasNextLine())
+        String name = "Error. Code 9011";
+        do
         {
-           String name = sc.nextLine();
-           System.out.println("Спасибо! Вы ввели String " + name);
-        }
-        else 
-        {
-           System.out.println("Извините, но это явно не String. Перезапустите программу и попробуйте снова!");
-        }*/
-        
-        if (sc.next() == null)
-        {
-           System.out.println("вы ввели нулл");
-        }
-        
-        //String name = in.nextLine();
-        //isNull(name);
-        
-        //System.out.printf("Введите имя организации:%n>>>");
-        //String coordinates = in.nextLine();
-        return orgList;
-    }
-    public static void executeShow(ArrayList[] orgList)
-    {
-        //Object[] peopleArray = orgList.toArray();
-        //for(Object person : peopleArray){
-        //    System.out.println(person);
-        //}
-    }
-    public static boolean isNull(Object variable)
-    {
-        if (null == variable) 
-        {
-            while(variable == null)
+            System.out.printf("Введите имя организации:%n>>>");
+            name = sc.nextLine();
+            //if ((!sc.hasNextLine() || 0 == name.length())) Надо ли проверять строку на формат ввода кроме null? 
+            //if  (0 == name.length())
+            if  (name == null)
             {
-                System.out.printf("Your input is null. Enter not-null value, please%n>>>");
-                //String name = in.nextLine();
-            }        
+                System.out.println("Your input is null. Enter not-null value, please");
+            }
         }
-    return false;
+        while (name == null);
+        //while (0 == name.length());
+        //while ((!sc.hasNextLine() || 0 == name.length())); Надо ли проверять строку на формат ввода кроме null?
+        System.out.print("Right name entered. It is String and not null. Name = " + name);
     }
+    /*boolean isBlankString(String string) 
+    {
+        return string == null || string.trim().isEmpty();
+    }*/
 }

@@ -1,16 +1,11 @@
 #BlueJ class context
 comment0.target=ComLineInterface
 comment0.text=\r\n\ Interpreting\ user\ input\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=args
-comment1.target=void\ main(java.lang.String[])
+comment1.params=
+comment1.target=void\ fetchCommand()
+comment1.text=\r\n\ \ \ \ public\ static\ void\ main(String[]\ args)\r\n\ \ \ \ {\r\n\ \ \ \ \ \ \ \ fetchCommand();\r\n\ \ \ \ \ \ \ \ sc.close();\ \ //\ closing\ scanner\ from\ fetchCommand\ method\r\n\ \ \ \ }\r\n
 comment2.params=
-comment2.target=void\ fetchCommand()
+comment2.target=void\ executeHelp()
 comment3.params=
-comment3.target=void\ executeHelp()
-comment4.params=
-comment4.target=void\ executeAdd()
-comment5.params=orgList
-comment5.target=void\ executeShow(java.util.ArrayList[])
-comment6.params=variable
-comment6.target=boolean\ isNull(java.lang.Object)
-numComments=7
+comment3.target=void\ executeAdd()
+numComments=4
