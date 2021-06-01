@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Organization
+comment0.text=\r\n\ Class\ of\ all\ objects\ in\ our\ ArrayList\r\n
+comment1.params=id\ name\ coordinates\ creationDate\ annualTurnover\ type\ postalAddress
+comment1.target=Organization(java.lang.Integer,\ java.lang.String,\ Coordinates,\ java.time.LocalDateTime,\ java.lang.Integer,\ OrganizationType,\ Address)
+comment2.params=
+comment2.target=java.lang.String\ toString()
+numComments=3

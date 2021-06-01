@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=Address
+comment0.text=\r\n\ Class\ to\ contain\ Organization's\ Address\r\n
+comment1.params=street
+comment1.target=Address(java.lang.String)
+numComments=2
