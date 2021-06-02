@@ -1,3 +1,4 @@
+
 import java.time.*;
 
 /**
@@ -22,7 +23,65 @@ public class Organization {
         this.postalAddress = postalAddress;
     }
     
-        @Override
+    public Integer getId()
+    {
+        return id;
+    }
+    public String getName()
+    {
+        return name;
+    }
+    public Coordinates getCoordinates()
+    {
+        return coordinates;
+    }
+    public LocalDateTime getCreationDate()
+    {
+        return creationDate;
+    }
+    public Integer getAnnualTurnover()
+    {
+        return annualTurnover;
+    }
+    public OrganizationType getType()
+    {
+        return type;
+    }
+    public Address getPostalAddress()
+    {
+        return postalAddress;
+    }
+    
+    public void setId(Integer newId)
+    {
+        this.id = newId;
+    }
+    public void setName(String newName)
+    {
+        this.name = newName;
+    }
+    public void setCoordinates(Coordinates newCoordinates)
+    {
+        this.coordinates = newCoordinates;
+    }
+    public void setCreationDate(LocalDateTime newCreationDate)
+    {
+        this.creationDate = newCreationDate;
+    }
+    public void setAnnualTurnover(Integer newAnnualTurnover)
+    {
+        this.annualTurnover = newAnnualTurnover;
+    }
+    public void setType(OrganizationType newType)
+    {
+        this.type = newType;
+    }
+    public void setAddress(Address newPostalAddress)
+    {
+        this.postalAddress = newPostalAddress;
+    }
+    
+    @Override
     public String toString() {
         return ("id:"+this.id +
                     "Name: "+ this.name +

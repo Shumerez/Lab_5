@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Reads collection from a file.
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 
 public class FileManager {
     //Create ArrayList
-    public static ArrayList orgList = new ArrayList();         
+    //public static ArrayList orgList = new ArrayList();
+    static public ArrayList<Organization> orgList = new ArrayList<>(); 
     public static ArrayList readCollection() throws ParserConfigurationException, IOException, org.xml.sax.SAXException {
         //Get Document Builder
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

@@ -1,4 +1,5 @@
 import java.io.File;
+import java.lang.Long;
 import java.util.Scanner;
 import java.util.ArrayList;
 /**
@@ -124,25 +125,50 @@ class ComLineInterface
     public static void executeAdd()
     {
         System.out.println("Инициируем добавление нового элемента в коллекцию...");
-        String name = "Error. Code 9011";
+        // Generating ID
+        System.out.println("Creating ID...");
+        Integer id = 1 + FileManager.orgList.get(FileManager.orgList.size() - 1).getId(); //getting max+1 ID for new organization      
+        System.out.println("ID created.");
+        
+        // Entering Name
+        System.out.println("Creating NAME...");
+        /*
+        String name = "Error. You wasn't supposed to see this. Code 9011";
         do
         {
             System.out.printf("Введите имя организации:%n>>>");
             name = sc.nextLine();
-            //if ((!sc.hasNextLine() || 0 == name.length())) Надо ли проверять строку на формат ввода кроме null? 
-            //if  (0 == name.length())
-            if  (name == null)
+            if  (isBlankString(name))
             {
-                System.out.println("Your input is null. Enter not-null value, please");
+                System.out.println("Your string is empty. Enter smth, please");
             }
         }
-        while (name == null);
-        //while (0 == name.length());
-        //while ((!sc.hasNextLine() || 0 == name.length())); Надо ли проверять строку на формат ввода кроме null?
-        System.out.print("Right name entered. It is String and not null. Name = " + name);
+        while (isBlankString(name));
+        System.out.println("Right name entered. It is non-empty string. Name = " + name);
+        System.out.println("NAME created.");
+        */
+        // Entering Coordinates
+        System.out.println("Creating COORDINATES...");
+        System.out.printf("Введите координату x организации:%n>>>");
+        
+        while (!sc.hasNextLong()) 
+        {
+            System.out.println("You entered non-Long value. Try again, pls");
+        }
+        long x = sc.nextLong();
+        
+        System.out.printf("Введите координату y организации:%n>>>");
+        while (!sc.hasNextLong()) 
+        {
+            System.out.println("You entered non-Long value. Try again, pls");
+        }
+        Long y = sc.nextLong();
+        
+        Coordinates coordinates = new Coordinates(x,y);
+        System.out.println("COORDINATES created = " + x + " and " + y);
     }
-    /*boolean isBlankString(String string) 
+    static boolean isBlankString(String string)
     {
         return string == null || string.trim().isEmpty();
-    }*/
+    }
 }
