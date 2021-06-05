@@ -2,5 +2,5 @@
 comment0.target=Coordinates
 comment0.text=\r\n\ Class\ to\ contain\ Organization's\ coordinates\r\n
 comment1.params=x\ y
-comment1.target=Coordinates(long,\ java.lang.Long)
+comment1.target=Coordinates(java.lang.String,\ java.lang.String)
 numComments=2

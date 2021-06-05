@@ -2,6 +2,7 @@ import java.io.File;
 import java.lang.Long;
 import java.util.Scanner;
 import java.util.ArrayList;
+//import static org.junit.Assert.*;
 /**
  * Interpreting user input
  * 
@@ -81,11 +82,13 @@ class ComLineInterface
                break;
             case ("remove_first"):
                //executeRemoveFirst();
+               //assertTrue(true);
                System.out.printf("%n%n");
                fetchCommand();
                break;
             case ("remove_last"):
                //executeRemoveLast();
+               //fail("failed...fail");
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -132,7 +135,7 @@ class ComLineInterface
         
         // Entering Name
         System.out.println("Creating NAME...");
-        /*
+        /* DONE
         String name = "Error. You wasn't supposed to see this. Code 9011";
         do
         {
@@ -149,23 +152,29 @@ class ComLineInterface
         */
         // Entering Coordinates
         System.out.println("Creating COORDINATES...");
-        System.out.printf("¬ведите координату x организации:%n>>>");
-        
+        System.out.printf("¬ведите координату X организации:%n>>>");
+        /*
         while (!sc.hasNextLong()) 
         {
             System.out.println("You entered non-Long value. Try again, pls");
         }
-        long x = sc.nextLong();
-        
-        System.out.printf("¬ведите координату y организации:%n>>>");
+        */
+        String isItLong = sc.nextLine();
+        /*try {
+            long x = new Long(isItLong);
+        }
+        catch {()}*/
+        //Long y = new Long(x);
+        /*
+        System.out.printf("¬ведите координату Y организации:%n>>>");
         while (!sc.hasNextLong()) 
         {
             System.out.println("You entered non-Long value. Try again, pls");
         }
         Long y = sc.nextLong();
-        
-        Coordinates coordinates = new Coordinates(x,y);
-        System.out.println("COORDINATES created = " + x + " and " + y);
+        */
+        //Coordinates coordinates = new Coordinates(x,y);
+        //System.out.println("COORDINATES created = " + x + " and " + y);
     }
     static boolean isBlankString(String string)
     {

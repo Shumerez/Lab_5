@@ -6,9 +6,13 @@ public class Coordinates
     private long x;
     private Long y; //Поле не может быть null
 
-    public Coordinates(long x, Long y) 
+    public Coordinates(String x, String y)
     {        
-        this.x = x;
-        this.y = y;
+        this.x = Long.parseLong(x);
+        if (y == null || y.length() == 0) 
+        {
+            System.out.println("help!");
+        }
+        this.y = Long.parseLong(y);
     }
 }
