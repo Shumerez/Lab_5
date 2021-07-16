@@ -82,13 +82,10 @@ public class Organization {
     }
     
     @Override
-    public String toString() {
-        return ("id:"+this.id +
-                    "Name: "+ this.name +
-                    "Coordinates: "+ this.coordinates +
-                    "Creation date : " + this.creationDate +
-                    "Annual turnover : " + this.annualTurnover +
-                    "Type : " + this.type +
-                    "Address : " + this.postalAddress);
+    public String toString()
+    {
+        return String.format("%nID: %d; Name: %s; Coordinates: %s;%n"
+            + "Creation date: %s; Annual turnover: %d; Type: %s; Address: %s;", 
+            id, name, coordinates, creationDate, annualTurnover, type, postalAddress);
     }
 }

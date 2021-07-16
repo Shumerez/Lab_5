@@ -6,7 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
-
+// experimenting with array output
+import java.util.Arrays;
 /**
  * Reads collection from a file.
  * @return Readed collection.
@@ -18,7 +19,8 @@ public class FileManager {
     //Create ArrayList
     //public static ArrayList orgList = new ArrayList();
     static public ArrayList<Organization> orgList = new ArrayList<>(); 
-    public static ArrayList readCollection() throws ParserConfigurationException, IOException, org.xml.sax.SAXException {
+    public static ArrayList readCollection() throws ParserConfigurationException, IOException, org.xml.sax.SAXException 
+    {
         //Get Document Builder
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -81,7 +83,7 @@ public class FileManager {
             }
         }
     
-    //System.out.println(orgList);
-    return orgList;
+        //System.out.println(orgList);
+        return orgList;
     }   
 }
