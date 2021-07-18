@@ -14,10 +14,5 @@ public class App
     {
         ArrayList orgList = FileManager.readCollection();
         ComLineInterface.fetchCommand();
-        //--------------ConsoleWaitingForInput();
-        
-        //ArrayList<Organization> OrgsList = new ArrayList<>();
-        //Organization org1 = new Organization(Добавить_аргументы);
-        //OrgsList.add(Org1);
     }
 }

@@ -32,13 +32,12 @@ class ComLineInterface
         
         String[] inputArray = inputString.split(" ");
         command = inputArray[0];
-        String[] arguments = new String[] {}; //must initialize arguments variable out of if
+        String[] arguments = new String[] {}; // must initialize 'arguments' variable out of if
         
         if (inputString.contains(" "))
         {
             arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length);
         }
-        
         switch (command) {
             case ("help"):
                executeHelp();
@@ -46,7 +45,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("info"):
-               //executeInfo;
+               executeInfo();
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -61,11 +60,11 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("update"):
-               //executeUpdate();
+               // executeUpdate();
                System.out.printf("%n%n");
                fetchCommand();
                break;
-            case ("remove_by_id"): //in progress
+            case ("remove_by_id"): // in progress
                if ((arguments[0].chars().allMatch( Character::isDigit )) && (arguments.length == 1))
                {
                    
@@ -86,7 +85,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("exit"):
-               //executeExit();
+               executeExit();
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -101,7 +100,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("shuffle"):
-               //executeShuffle();
+               executeShuffle();
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -131,6 +130,10 @@ class ComLineInterface
     {
         System.out.printf("help : вывести справку по доступным командам%ninfo : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)%nshow : вывести в стандартный поток вывода все элементы коллекции в строковом представлении%nadd {element} : добавить новый элемент в коллекцию%nupdate id {element} : обновить значение элемента коллекции, id которого равен заданному%nremove_by_id id : удалить элемент из коллекции по его id%nclear : очистить коллекцию%nsave : сохранить коллекцию в файл%nexecute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.%nexit : завершить программу (без сохранения в файл)%nremove_first : удалить первый элемент из коллекции%nremove_last : удалить последний элемент из коллекции%nshuffle : перемешать элементы коллекции в случайном порядке%ncount_by_postal_address postalAddress : вывести количество элементов, значение поля postalAddress которых равно заданному%nfilter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки%nprint_descending : вывести элементы коллекции в порядке убывания");
     }
+    public static void executeInfo()
+    {
+        // System.out.println(FileManager.orgList);
+    }
     public static void executeShow()
     {
         System.out.println(FileManager.orgList);
@@ -139,14 +142,15 @@ class ComLineInterface
     {
         System.out.println("Инициируем добавление нового элемента в коллекцию...");
         // Generating ID id (ok)
-        System.out.println("Creating ID...");
-        Integer id = 1 + FileManager.orgList.get(FileManager.orgList.size() - 1).getId(); //getting max+1 ID for new organization      
+        System.out.println("Creatwing ID...");
+        Integer id = 1 + FileManager.maxId;
+        FileManager.maxId += 1;
         System.out.println("ID created.");
         
         // Entering Name name (ok)
         System.out.println("Creating Name...");
         
-        String name = "Error. You wasn't supposed to see this. Code 9011";
+        String name;
         do
         {
             System.out.printf("Введите имя организации:%n>>>");
@@ -204,6 +208,10 @@ class ComLineInterface
         FileManager.orgList.clear();
         System.out.println("Array cleared");
     }
+    public static void executeExit()
+    {
+        System.exit(0);
+    }
     public static void executeRemoveFirst()
     {
         try
@@ -221,15 +229,21 @@ class ComLineInterface
         try
         {
             FileManager.orgList.remove(FileManager.orgList.size() - 1);
-            System.out.println("Last element removed. It's id were: " + (FileManager.orgList.size() + 1));
+            System.out.println("Last element removed. It's id was: " + (FileManager.orgList.size() + 1));
         }
         catch (IndexOutOfBoundsException e)
         {
             System.out.println("Array is already empty!");
         }
     }
+    public static void executeShuffle() // in progress - remove system.out's
+    {
+        Collections.shuffle(FileManager.orgList);
+    }
     public static void executePrintDescending()
     {
+        // Использует компараторы,     
+        /*
         Comparator<Organization> idComparator = (o1, o2) -> o1.getId().compareTo(o2.getId()); // override compareTo method 
                                                                                               // for our Organization class
         FileManager.orgList.sort(idComparator.reversed()); // sort in reverse
@@ -237,6 +251,21 @@ class ComLineInterface
         System.out.println(FileManager.orgList); // print sorted in reverse
         
         FileManager.orgList.sort(idComparator); // sort to the normal state
+
+        /* Альтернативный подход - без компараторов, сортирует в порядке, обратном имеющемуся
+         *  Collections.reverse(FileManager.orgList);
+         *  System.out.println(FileManager.orgList);
+         *  Collections.reverse(FileManager.orgList);
+         *  System.out.println(FileManager.orgList);
+         */
+        
+        // Текущий подход - сортирует по "убыванию" (descending). Так как compareTo переопределен у меня как сравнение id, 
+        // сортирует по убыванию id. Не использует компараторы.
+        
+        ArrayList<Organization> sortList = new ArrayList<>(FileManager.orgList); // create copy
+        sortList.sort(Collections.reverseOrder()); // sort in reverse
+        System.out.println(sortList); // print sorted in reverse
+        sortList = null; // clear memory
     }
     static boolean isBlankString(String string)
     {

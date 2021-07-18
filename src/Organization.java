@@ -4,7 +4,7 @@ import java.time.*;
 /**
  * Class of all objects in our ArrayList
  */
-public class Organization {
+public class Organization implements Comparable <Organization>{
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -87,5 +87,11 @@ public class Organization {
         return String.format("%nID: %d; Name: %s; Coordinates: %s;%n"
             + "Creation date: %s; Annual turnover: %d; Type: %s; Address: %s;", 
             id, name, coordinates, creationDate, annualTurnover, type, postalAddress);
+    }
+    @Override
+    public int compareTo(Organization o)
+    {
+        int result = this.id.compareTo(o.id);
+        return result;
     }
 }
