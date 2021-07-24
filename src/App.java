@@ -6,9 +6,7 @@ import java.util.*;
  */
 public class App
 {
-    public App()
-    {  
-    }
+    public App() {}
     
     public static void main(String[] args) throws org.xml.sax.SAXException,IOException,javax.xml.parsers.ParserConfigurationException
     {

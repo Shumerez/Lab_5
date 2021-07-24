@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 // experimenting with array output
 import java.util.Arrays;
+// for creationData var
+import java.util.Date;
 /**
  * Reads collection from a file.
  * @return Readed collection.
@@ -18,6 +20,8 @@ import java.util.Arrays;
 public class FileManager {
     static public ArrayList<Organization> orgList = new ArrayList<>();
     static public Integer maxId = 0; // this var needed for generating truly unique IDs in future
+    static public Date creationDate = new Date(); // collection's creation date
+    
     public static ArrayList readCollection() throws ParserConfigurationException, IOException, org.xml.sax.SAXException 
     {
         // Get Document Builder
@@ -80,10 +84,11 @@ public class FileManager {
                 Organization org = new Organization(id, name, coordinates, creationDate, annualTurnover, type, address);
                 orgList.add(org);
                 
-                // also we should find max ID here, to make sure that they will be unique in future
+                // also we should find max ID here, to be sure that they will be unique in future
                 if (id > maxId) {maxId = id;}
             }
         }
+        creationDate = new Date();
         return orgList;
     }   
 }

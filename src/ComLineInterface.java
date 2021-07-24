@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+// for filtering
+import java.util.function.Predicate;
 /**
  * Interpreting user input
  * 
@@ -23,7 +25,6 @@ import java.util.stream.Collectors;
 class ComLineInterface
 {
     private static Scanner sc = new Scanner(System.in);
-
     public static void fetchCommand()
     {
         System.out.print(">>>");
@@ -36,7 +37,7 @@ class ComLineInterface
         
         if (inputString.contains(" "))
         {
-            arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length);
+            arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length); // if entered string contains space, count it's afterspace part as args
         }
         switch (command) {
             case ("help"):
@@ -65,12 +66,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("remove_by_id"): // in progress
-               if ((arguments[0].chars().allMatch( Character::isDigit )) && (arguments.length == 1))
-               {
-                   
-                   executeRemoveById(Integer.valueOf(arguments[0]));
-               }
-               System.out.printf("Wrong arguments. remove_by_id command needs exactly 1 numeric argument.%nYou entered " + arguments + "%nEnter command again, please.");
+               executeRemoveById(Integer.valueOf(arguments[0]));
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -132,7 +128,7 @@ class ComLineInterface
     }
     public static void executeInfo()
     {
-        // System.out.println(FileManager.orgList);
+        System.out.printf("Array type: List;%nArray creation date: " + FileManager.creationDate + ";%nArray size: " + FileManager.orgList.size() + ";");
     }
     public static void executeShow()
     {
@@ -141,6 +137,7 @@ class ComLineInterface
     public static void executeAdd()
     {
         System.out.println("Инициируем добавление нового элемента в коллекцию...");
+        
         // Generating ID id (ok)
         System.out.println("Creatwing ID...");
         Integer id = 1 + FileManager.maxId;
@@ -201,7 +198,21 @@ class ComLineInterface
     }
     public static void executeRemoveById(Integer id)
     {
-        System.out.println("Succesful removing by id " + id);
+        System.out.println("ID of the third element: " + FileManager.orgList.get(2).getId());
+        System.out.println("ID of needed element: " + id);
+        
+        Predicate<Organization> filter = (organization) -> { return (organization.getId() == id); };
+        // Predicate<Organization> filter = (organization) -> { return true; };
+        // Predicate<Organization> filter = (organization) -> { System.out.println(organization.getId()); return false;};
+        
+        try
+        {
+            System.out.println(FileManager.orgList.removeIf(filter));
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            System.out.println("Array is already empty!");
+        }
     }
     public static void executeClear()
     {
@@ -236,9 +247,10 @@ class ComLineInterface
             System.out.println("Array is already empty!");
         }
     }
-    public static void executeShuffle() // in progress - remove system.out's
+    public static void executeShuffle()
     {
         Collections.shuffle(FileManager.orgList);
+        System.out.println(FileManager.orgList);
     }
     public static void executePrintDescending()
     {
@@ -259,8 +271,8 @@ class ComLineInterface
          *  System.out.println(FileManager.orgList);
          */
         
-        // Текущий подход - сортирует по "убыванию" (descending). Так как compareTo переопределен у меня как сравнение id, 
-        // сортирует по убыванию id. Не использует компараторы.
+        // Текущий подход - сортирует по "убыванию" (descending). Так как compareTo переопределен у меня
+        // как сравнение id, сортирует по убыванию id. Не использует компараторы.
         
         ArrayList<Organization> sortList = new ArrayList<>(FileManager.orgList); // create copy
         sortList.sort(Collections.reverseOrder()); // sort in reverse
