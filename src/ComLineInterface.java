@@ -65,7 +65,7 @@ class ComLineInterface
                System.out.printf("%n%n");
                fetchCommand();
                break;
-            case ("remove_by_id"): // in progress
+            case ("remove_by_id"):
                executeRemoveById(Integer.valueOf(arguments[0]));
                System.out.printf("%n%n");
                fetchCommand();
@@ -101,12 +101,12 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("count_by_postal_address"):
-               //executeCountByPostalAddress();
+               executeCountByPostalAddress(arguments[0]);
                System.out.printf("%n%n");
                fetchCommand();
                break;
-            case ("filter_starts_with_name"):
-               //executeFilterStartsWithName();
+            case ("filter_starts_with_name"): // in progress
+               executeFilterStartsWithName(arguments[0]);
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -198,21 +198,9 @@ class ComLineInterface
     }
     public static void executeRemoveById(Integer id)
     {
-        System.out.println("ID of the third element: " + FileManager.orgList.get(2).getId());
-        System.out.println("ID of needed element: " + id);
-        
-        Predicate<Organization> filter = (organization) -> { return (organization.getId() == id); };
-        // Predicate<Organization> filter = (organization) -> { return true; };
-        // Predicate<Organization> filter = (organization) -> { System.out.println(organization.getId()); return false;};
-        
-        try
-        {
-            System.out.println(FileManager.orgList.removeIf(filter));
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            System.out.println("Array is already empty!");
-        }
+        Predicate<Organization> filter = (organization) -> { return (Integer.valueOf(organization.getId()) == Integer.valueOf(id)); };       
+        if ( !FileManager.orgList.removeIf(filter) ) { System.out.println("Such element doesn't exist."); }
+        else { System.out.println("Element with id = " + id + " removed successfully."); }
     }
     public static void executeClear()
     {
@@ -251,6 +239,22 @@ class ComLineInterface
     {
         Collections.shuffle(FileManager.orgList);
         System.out.println(FileManager.orgList);
+    }
+    public static void executeCountByPostalAddress(String address)
+    {
+        Integer addrCount = 0;
+        for (Organization org : FileManager.orgList) {
+            if ( org.getPostalAddress().toString().equals(address) ) { addrCount += 1;}
+        }
+        System.out.printf("%nThere are " + addrCount + " organisations with this postal address.");
+    }
+    public static void executeFilterStartsWithName(String substringName) // in progress
+    {
+        Integer addrCount = 0;
+        for (Organization org : FileManager.orgList) {
+            if ( org.getPostalAddress().toString().equals(address) ) { addrCount += 1;}
+        }
+        System.out.printf("%nThere are " + addrCount + " organisations with this postal address.");
     }
     public static void executePrintDescending()
     {
