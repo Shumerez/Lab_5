@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class FileManager {
     static public ArrayList<Organization> orgList = new ArrayList<>();
-    static public Integer maxId = 0; // this var needed for generating truly unique IDs in future
+    static public Integer maxId = 0; // this var needed for generating unique IDs in future
     static public Date creationDate = new Date(); // collection's creation date
     
     public static ArrayList readCollection() throws ParserConfigurationException, IOException, org.xml.sax.SAXException 
@@ -59,8 +59,8 @@ public class FileManager {
                 String name = eElement.getElementsByTagName("name").item(0).getTextContent();
                 
                 // System.out.println("Coordinates : "   + eElement.getElementsByTagName("coordinates").item(0).getTextContent());
-                String phrase = eElement.getElementsByTagName("coordinates").item(0).getTextContent(); //parsing coordinates to get separated x and y
-                String delims = "[;]";
+                String phrase = eElement.getElementsByTagName("coordinates").item(0).getTextContent(); //parsing coordinates to get separated x and yy
+                String delims = ", ";
                 String[] tokens = phrase.split(delims);
                 
                 long x = Long.valueOf(tokens[0]);
@@ -69,7 +69,7 @@ public class FileManager {
                 
                 // System.out.println("Creation date : "    + eElement.getElementsByTagName("creationDate").item(0).getTextContent());
                 String str = eElement.getElementsByTagName("creationDate").item(0).getTextContent();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime creationDate = LocalDateTime.parse(str, formatter);
     
                 // System.out.println("Annual turnover : "   + eElement.getElementsByTagName("annualTurnover").item(0).getTextContent());

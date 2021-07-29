@@ -15,6 +15,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 // for filtering
 import java.util.function.Predicate;
+// only for SAVE command, remove to a Commands class after command repostition
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 /**
  * Interpreting user input
  * 
@@ -61,7 +75,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("update"):
-               // executeUpdate();
+               executeUpdate(Integer.valueOf(arguments[0]));
                System.out.printf("%n%n");
                fetchCommand();
                break;
@@ -76,7 +90,7 @@ class ComLineInterface
                fetchCommand();
                break;
             case ("save"):
-               //executeSave();
+               executeSave();
                System.out.printf("%n%n");
                fetchCommand();
                break;   
@@ -201,6 +215,63 @@ class ComLineInterface
         
         System.out.println(FileManager.orgList);
     }
+    public static void executeUpdate(Integer id)
+    {
+        System.out.println("Изменяем поля существующего элемента коллекции");
+        // Organization org = FileManager.orgList.get(id - 1);
+        
+        // Entering Name name (ok)
+        System.out.println("Updating Name...");
+        
+        String name;
+        do
+        {
+            System.out.printf("Введите имя организации:%n>>>");
+            name = sc.nextLine();
+            if  (isBlankString(name))
+            {
+                System.out.println("Your string is empty. Enter smth, please");
+            }
+        }
+        while (isBlankString(name));
+        System.out.println("Right name entered. It is non-empty string. Name = " + name);
+        
+        System.out.println("NAME created.");
+        
+       
+        // Entering Coordinates (ok)
+        Coordinates coordinates = new Coordinates(sc);
+        
+        // working on DATE date (ok)
+        System.out.println("Creating creationDate...");
+        System.out.printf("Введите дату создания:%n>>>");
+        
+        sc.nextLine(); // clear buffer
+        
+        String str = sc.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime date = LocalDateTime.parse(str, formatter);
+        System.out.println("creationDate created = " + date);
+        
+        
+        // working on annualTurnover turnover (ok)
+        System.out.println("Creating annualTurnover...");
+        System.out.printf("Введите ежегодный оборот:%n>>>");
+        Integer turnover = sc.nextInt();
+        System.out.print("annualTurnover created = " + turnover);
+        
+        
+        // working on OrganizationType type (ok)
+        OrganizationType type = OrganizationType.chooseType(sc);
+       
+        // set postalAddress address (ok)
+        Address address = new Address(sc);
+        
+        Organization org = new Organization(id, name, coordinates, date, turnover, type, address);
+        FileManager.orgList.set(id - 1, org);
+        
+        System.out.println(FileManager.orgList);
+    }
     public static void executeRemoveById(Integer id)
     {
         Predicate<Organization> filter = (organization) -> { return (Integer.valueOf(organization.getId()) == Integer.valueOf(id)); };       
@@ -211,6 +282,84 @@ class ComLineInterface
     {
         FileManager.orgList.clear();
         System.out.println("Array cleared");
+    }
+    public static void executeSave()
+    {
+	String xmlFilePath = "C:/Users/Второй/Documents/GitHub/Lab_5/OrganizationsSave.xml";
+	try
+	{    
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+            
+            // root element
+            Element root = document.createElement("organizationsList");
+            document.appendChild(root);
+            
+            for (Organization org : FileManager.orgList)
+            { 
+                // organisation element
+                Element organisation = document.createElement("organization");
+                root.appendChild(organisation);
+           
+                // set an attribute to staff element
+                Attr attr = document.createAttribute("id");
+                attr.setValue(org.getId().toString());
+                organisation.setAttributeNode(attr);
+           
+            
+                // name element
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(org.getName()));
+                organisation.appendChild(name);
+                
+                // coordinates element
+                Element coordinates = document.createElement("coordinates");
+                coordinates.appendChild(document.createTextNode(org.getCoordinates().toString()));
+                organisation.appendChild(coordinates);
+                
+                // creationDate element
+                Element creationDate = document.createElement("creationDate");
+                creationDate.appendChild(document.createTextNode(org.getCreationDate().toString()));
+                organisation.appendChild(creationDate);
+                
+                // annualTurnover element
+                Element annualTurnover = document.createElement("annualTurnover");
+                annualTurnover.appendChild(document.createTextNode(org.getAnnualTurnover().toString()));
+                organisation.appendChild(annualTurnover);
+            	
+                // type element
+                Element type = document.createElement("type");
+                type.appendChild(document.createTextNode(org.getType().toString()));
+                organisation.appendChild(type);
+            	
+                // postalAddress element
+                Element postalAddress = document.createElement("postalAddress");
+                postalAddress.appendChild(document.createTextNode(org.getPostalAddress().toString()));
+                organisation.appendChild(postalAddress);
+            }
+            
+            // create the xml file
+            //transform the DOM Object to an XML File
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+            
+            // If you use
+            // StreamResult result = new StreamResult(System.out);
+            // the output will be pushed to the standard output ...
+            // You can use that for debugging 
+            
+            transformer.transform(domSource, streamResult);
+            
+            System.out.println("Done creating XML File");
+		
+	} catch (ParserConfigurationException pce) {
+		pce.printStackTrace();
+	} catch (TransformerException tfe) {
+		tfe.printStackTrace();
+	}
     }
     public static void executeExit()
     {
