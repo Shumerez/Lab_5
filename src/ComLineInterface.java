@@ -75,6 +75,11 @@ class ComLineInterface
                System.out.printf("%n%n");
                fetchCommand();
                break;
+            case ("save"):
+               //executeSave();
+               System.out.printf("%n%n");
+               fetchCommand();
+               break;   
             case ("execute_script"):
                //executeScript();
                System.out.printf("%n%n");
@@ -105,7 +110,7 @@ class ComLineInterface
                System.out.printf("%n%n");
                fetchCommand();
                break;
-            case ("filter_starts_with_name"): // in progress
+            case ("filter_starts_with_name"):
                executeFilterStartsWithName(arguments[0]);
                System.out.printf("%n%n");
                fetchCommand();
@@ -248,13 +253,13 @@ class ComLineInterface
         }
         System.out.printf("%nThere are " + addrCount + " organisations with this postal address.");
     }
-    public static void executeFilterStartsWithName(String substringName) // in progress
+    public static void executeFilterStartsWithName(String substring)
     {
-        Integer addrCount = 0;
+        ArrayList<Organization> filterList = new ArrayList<>(); // create empty list
         for (Organization org : FileManager.orgList) {
-            if ( org.getPostalAddress().toString().equals(address) ) { addrCount += 1;}
+            if ( org.getName().toString().startsWith(substring) ) { filterList.add(org);}
         }
-        System.out.printf("%nThere are " + addrCount + " organisations with this postal address.");
+        System.out.println(filterList);
     }
     public static void executePrintDescending()
     {
