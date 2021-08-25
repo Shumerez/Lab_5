@@ -28,7 +28,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
+// for execute_script command
+import java.io.File;
+import java.io.FileNotFoundException;
 /**
  * Interpreting user input
  * 
@@ -39,107 +41,103 @@ import org.w3c.dom.Element;
 class ComLineInterface
 {
     private static Scanner sc = new Scanner(System.in);
-    public static void fetchCommand()
+    public static void readCommand()
     {
         System.out.print(">>>");
-        String inputString = sc.nextLine();
-        String command = new String();
         
-        String[] inputArray = inputString.split(" ");
-        command = inputArray[0];
-        String[] arguments = new String[] {}; // must initialize 'arguments' variable out of if
-        
-        if (inputString.contains(" "))
+        do
         {
-            arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length); // if entered string contains space, count it's afterspace part as args
+            
+            String inputString = sc.nextLine();
+            String command = new String();
+        
+            String[] inputArray = inputString.split(" ");
+            command = inputArray[0];
+            String[] arguments = new String[] {}; // must initialize 'arguments' variable out of if
+
+            if (inputString.contains(" "))
+            {
+                arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length); // if entered string contains space, count it's afterspace part as args
+            }
+            fetchCommand(command, arguments); 
+            System.out.print(">>>");
         }
-        switch (command) {
+        while(sc.hasNextLine());
+        
+        sc.close(); // closing scanner
+    }    
+    private static void fetchCommand(String command, String[] arguments)
+    {
+        switch (command)
+        {
             case ("help"):
                executeHelp();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("info"):
                executeInfo();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("show"):
                executeShow();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("add"):
                executeAdd();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("update"):
                executeUpdate(Integer.valueOf(arguments[0]));
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("remove_by_id"):
                executeRemoveById(Integer.valueOf(arguments[0]));
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("clear"):
                executeClear();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("save"):
                executeSave();
                System.out.printf("%n%n");
-               fetchCommand();
                break;   
             case ("execute_script"):
-               //executeScript();
+               executeScript();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("exit"):
                executeExit();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("remove_first"):
                executeRemoveFirst();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("remove_last"):
                executeRemoveLast();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("shuffle"):
                executeShuffle();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("count_by_postal_address"):
                executeCountByPostalAddress(arguments[0]);
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("filter_starts_with_name"):
                executeFilterStartsWithName(arguments[0]);
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             case ("print_descending"):
                executePrintDescending();
                System.out.printf("%n%n");
-               fetchCommand();
                break;
             default:
-               System.out.println("You entered some bullshit (" + inputString + "). Again, pls");
-               fetchCommand();
+               System.out.println("You entered some bullshit (" + command + "). Again, pls");
                break;
         }
-        sc.close(); // closing scanner
     }
     public static void executeHelp()
     {
@@ -285,9 +283,9 @@ class ComLineInterface
     }
     public static void executeSave()
     {
-	String xmlFilePath = "C:/Users/Второй/Documents/GitHub/Lab_5/OrganizationsSave.xml";
-	try
-	{    
+    String xmlFilePath = "C:/Users/Второй/Documents/GitHub/Lab_5/OrganizationsSave.xml";
+    try
+    {    
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
@@ -327,12 +325,12 @@ class ComLineInterface
                 Element annualTurnover = document.createElement("annualTurnover");
                 annualTurnover.appendChild(document.createTextNode(org.getAnnualTurnover().toString()));
                 organisation.appendChild(annualTurnover);
-            	
+                
                 // type element
                 Element type = document.createElement("type");
                 type.appendChild(document.createTextNode(org.getType().toString()));
                 organisation.appendChild(type);
-            	
+                
                 // postalAddress element
                 Element postalAddress = document.createElement("postalAddress");
                 postalAddress.appendChild(document.createTextNode(org.getPostalAddress().toString()));
@@ -354,12 +352,39 @@ class ComLineInterface
             transformer.transform(domSource, streamResult);
             
             System.out.println("Done creating XML File");
-		
-	} catch (ParserConfigurationException pce) {
-		pce.printStackTrace();
-	} catch (TransformerException tfe) {
-		tfe.printStackTrace();
-	}
+        
+    } catch (ParserConfigurationException pce) {
+        pce.printStackTrace();
+    } catch (TransformerException tfe) {
+        tfe.printStackTrace();
+    }
+    }
+    public static void executeScript()
+    {
+    
+         //creating File instance to reference text file in Java
+        File text = new File("C:/Users/Второй/Documents/GitHub/Lab_5/Script.txt");
+     
+        //Creating Scanner instance to read File in Java
+        try {sc = new Scanner(text);} catch(FileNotFoundException c) {System.out.printf("шото не то...");}
+        //sc = new Scanner(text);
+        //Reading each line of the file using Scanner class
+        
+        while(sc.hasNextLine()){
+            String inputString = sc.nextLine();
+            String command = new String();
+            
+            String[] inputArray = inputString.split(" ");
+            command = inputArray[0];
+            String[] arguments = new String[] {}; // must initialize 'arguments' variable out of if
+    
+            if (inputString.contains(" "))
+            {
+                arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length); // if entered string contains space, count it's afterspace part as args
+            }
+            fetchCommand(command, arguments);
+        }
+        sc = new Scanner(System.in);
     }
     public static void executeExit()
     {
