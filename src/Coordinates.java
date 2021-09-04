@@ -2,6 +2,8 @@
  * Class to contain Organization's coordinates
  */
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
 public class Coordinates 
 {
     private long x;
@@ -11,14 +13,38 @@ public class Coordinates
     {        
         System.out.println("Creating Coordinates...");
         
-        System.out.printf("¬ведите координату X организации:%n>>>");
-        this.x = sc.nextLong();
+        boolean inputIsRight; // flag for input check
+        do
+        {
+            inputIsRight = true; // initial flag is true - if no errors, do cycle will end
+            
+            try 
+            { 
+                System.out.printf("¬ведите координату X организации:%n>>>");
+                this.x = ComLineInterface.sc.nextLong();
+                // if (ComLineInterface.isBlankString(Long.toString(this.x))) { throw new InputMismatchException("Null input"); }
+            }
+            catch (InputMismatchException e) { System.out.println("Input error. Input Long value again, please."); inputIsRight = false; sc.nextLine();} // error - show message, set flag false, clear scanner buffer
+        }
+        while (!inputIsRight); // checking flag
         
-        System.out.printf("¬ведите координату Y организации:%n>>>");
-        this.y = sc.nextLong();
+        do
+        {
+            inputIsRight = true; // initial flag is true - if no errors, do cycle will end
+
+            try 
+            { 
+                System.out.printf("¬ведите координату Y организации:%n>>>");
+                this.y = ComLineInterface.sc.nextLong(); 
+                // if (ComLineInterface.isBlankString(Long.toString(this.y))) { throw new InputMismatchException("Null input"); }
+            }
+            catch (InputMismatchException e) { System.out.println("Input error. Input Long value again, please."); inputIsRight = false; sc.nextLine();} // error - show message, set flag false, clear scanner buffer
+        }
+        while (!inputIsRight); // checking flag
         
         System.out.println("Coordinates created = " + x + " and " + y);
     }
+
     public Coordinates(long x, Long y)
     {
         this.x = x;

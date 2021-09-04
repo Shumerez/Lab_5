@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=FactorialException
+comment1.params=
+comment1.target=int\ getNumber()
+comment2.params=message\ num
+comment2.target=FactorialException(java.lang.String,\ int)
+numComments=3

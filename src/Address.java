@@ -10,12 +10,19 @@ public class Address
     {
         System.out.printf("Назовите адрес организации (улицу):%n>>>");
         String street = sc.nextLine();
-        this.street = street;
+        if (ComLineInterface.isBlankString(street))
+        {
+            this.street = null;
+        }
+        else
+        {
+            this.street = street;
+        }
         System.out.println("postalAddress created = " + street);
     }
     public Address(String street)
     {
-    this.street = street;    
+        this.street = street;    
     }
     @Override
     public String toString()

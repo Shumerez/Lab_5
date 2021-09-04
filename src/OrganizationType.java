@@ -21,24 +21,24 @@ public enum OrganizationType
         
         OrganizationType type = null;
         
-        boolean GoFlag = true;
+        boolean inputIsRight = false;
         
         sc.nextLine(); // clear buffer
-        while (GoFlag)
+        while (!inputIsRight)
         {
             String whichOrg = sc.nextLine().toUpperCase();
             switch (whichOrg)
             {
                 case ("COMMERCIAL"):
-                    GoFlag = false;
+                    inputIsRight = true;
                     type = OrganizationType.COMMERCIAL;
                     break;
                 case ("GOVERNMENT"):
-                    GoFlag = false;
+                    inputIsRight = true;
                     type = OrganizationType.GOVERNMENT;
                     break;
                 case ("PRIVATE_LIMITED_COMPANY"):
-                    GoFlag = false;
+                    inputIsRight = true;
                     type = OrganizationType.PRIVATE_LIMITED_COMPANY;
                     break;
                 default:
@@ -47,7 +47,6 @@ public enum OrganizationType
             }
         }
         System.out.println("OrganizationType created = " + type);
-        // sc.close();
         return type;
     }
 }
