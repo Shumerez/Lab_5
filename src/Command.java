@@ -36,7 +36,7 @@ public class Command
 {
     public static void executeHelp()
     {
-        System.out.printf("help : вывести справку по доступным командам%ninfo : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)%nshow : вывести в стандартный поток вывода все элементы коллекции в строковом представлении%nadd {element} : добавить новый элемент в коллекцию%nupdate id {element} : обновить значение элемента коллекции, id которого равен заданному%nremove_by_id id : удалить элемент из коллекции по его id%nclear : очистить коллекцию%nsave : сохранить коллекцию в файл%nexecute_ComLineInterface.script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.%nexit : завершить программу (без сохранения в файл)%nremove_first : удалить первый элемент из коллекции%nremove_last : удалить последний элемент из коллекции%nshuffle : перемешать элементы коллекции в случайном порядке%ncount_by_postal_address postalAddress : вывести количество элементов, значение поля postalAddress которых равно заданному%nfilter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки%nprint_deComLineInterface.scending : вывести элементы коллекции в порядке убывания");
+        System.out.printf("help : вывести справку по доступным командам%ninfo : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)%nshow : вывести в стандартный поток вывода все элементы коллекции в строковом представлении%nadd {element} : добавить новый элемент в коллекцию%nupdate id {element} : обновить значение элемента коллекции, id которого равен заданному%nremove_by_id id : удалить элемент из коллекции по его id%nclear : очистить коллекцию%nsave : сохранить коллекцию в файл%nexecute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.%nexit : завершить программу (без сохранения в файл)%nremove_first : удалить первый элемент из коллекции%nremove_last : удалить последний элемент из коллекции%nshuffle : перемешать элементы коллекции в случайном порядке%ncount_by_postal_address postalAddress : вывести количество элементов, значение поля postalAddress которых равно заданному%nfilter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки%nprint_descending : вывести элементы коллекции в порядке убывания");
     }
     public static void executeInfo()
     {
@@ -112,7 +112,7 @@ public class Command
             
             try
             {
-                turnover = ComLineInterface.sc.nextInt();
+                turnover = ComLineInterface.sc.nextInt(); 
                 System.out.println("annualTurnover created = " + turnover);
             }
             catch (InputMismatchException e) { System.out.printf("InputMismatchException occured. Enter annual turnover again, it should be integer%n>>>"); inputIsRight = false; ComLineInterface.sc.nextLine(); } // error - show message, set flag false, clear scanner buffer
@@ -132,64 +132,102 @@ public class Command
     }
     public static void executeUpdate(Integer id)
     {
-        System.out.println("Изменяем поля существующего элемента коллекции");
-        // Organization org = FileManager.orgList.get(id - 1);
-        
-        // Entering Name name (ok)
-        System.out.println("Updating Name...");
-        
-        String name;
-        do
-        {
-            System.out.printf("Введите имя организации:%n>>>");
-            name = ComLineInterface.sc.nextLine();
-            if  (ComLineInterface.isBlankString(name))
-            {
-                System.out.println("Your string is empty. Enter smth, please");
+        boolean suchIdExist = false;
+        for(Organization iterateOrg : FileManager.orgList) { 
+            if (iterateOrg.getId().equals(id)) 
+            { 
+                System.out.println("Such ID exist.");
+                suchIdExist = true;
+                
+                System.out.println("Изменяем поля существующего элемента коллекции");
+                // Organization org = FileManager.orgList.get(id - 1);
+                
+                // Name is done
+                System.out.println("Updating Name...");
+                
+                String name;
+                do
+                {
+                    System.out.printf("Введите имя организации:%n>>>");
+                    name = ComLineInterface.sc.nextLine();
+                    if  (ComLineInterface.isBlankString(name))
+                    {
+                        System.out.println("Your string is empty. Enter smth, please");
+                    }
+                }
+                while (ComLineInterface.isBlankString(name));
+                System.out.println("Right name entered. It is non-empty string. Name = " + name);
+                
+                System.out.println("Name updated.");
+                
+               
+                // Coordinates is done
+                Coordinates coordinates = new Coordinates(ComLineInterface.sc);
+                
+                // Date is done
+                System.out.println("Updating creationDate...");
+                System.out.printf("Введите дату создания:%n>>>");
+                
+                ComLineInterface.sc.nextLine(); // clear buffer
+                
+                boolean inputIsRight; // flag for input check
+                LocalDateTime date = null; // default value of variable 'date'
+                do
+                {
+                    inputIsRight = true; // initial flag is true - if no errors, 'do' cycle will end successfuly
+                    try
+                    {   
+                        String str = ComLineInterface.sc.nextLine();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                        date = LocalDateTime.parse(str, formatter);
+                        System.out.println("creationDate created = " + date);
+                    }
+                    catch (DateTimeParseException e) 
+                    {
+                        System.out.printf("DateTimeParseException occured. Enter date again, in format 'yyyy-mm-dd hh:mm', 24 hours%n>>>");
+                        inputIsRight = false;
+                    } // error - show message, set flag false, clear scanner buffer
+                }
+                while (!inputIsRight); // checking flag
+                
+                // Annual turnover is done
+                System.out.println("Updating annualTurnover...");
+                System.out.printf("Введите ежегодный оборот:%n>>>");
+                        
+                Integer turnover = null; // default value of variable 'turnover'
+                do
+                {
+                    inputIsRight = true; // initial flag is true - if no errors, 'do' cycle will end successfuly
+                    
+                    try
+                    {
+                        turnover = ComLineInterface.sc.nextInt();
+                        System.out.println("annualTurnover updated = " + turnover);
+                    }
+                    catch (InputMismatchException e) { System.out.printf("InputMismatchException occured. Enter annual turnover again, it should be integer%n>>>"); inputIsRight = false; ComLineInterface.sc.nextLine(); } // error - show message, set flag false, clear scanner buffer
+                }
+                while (!inputIsRight); // checking flag
+                
+                // Organization type is done
+                OrganizationType type = OrganizationType.chooseType(ComLineInterface.sc);
+               
+                // Postal address is done
+                Address address = new Address(ComLineInterface.sc);
+                
+                Organization org = new Organization(id, name, coordinates, date, turnover, type, address);
+                FileManager.orgList.set(id - 1, org);
+                
+                System.out.println(FileManager.orgList);   
             }
         }
-        while (ComLineInterface.isBlankString(name));
-        System.out.println("Right name entered. It is non-empty string. Name = " + name);
-        
-        System.out.println("NAME created.");
-        
-       
-        // Entering Coordinates (ok)
-        Coordinates coordinates = new Coordinates(ComLineInterface.sc);
-        
-        // working on DATE date (ok)
-        System.out.println("Creating creationDate...");
-        System.out.printf("Введите дату создания:%n>>>");
-        
-        ComLineInterface.sc.nextLine(); // clear buffer
-        
-        String str = ComLineInterface.sc.nextLine();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime date = LocalDateTime.parse(str, formatter);
-        System.out.println("creationDate created = " + date);
-        
-        
-        // working on annualTurnover turnover (ok)
-        System.out.println("Creating annualTurnover...");
-        System.out.printf("Введите ежегодный оборот:%n>>>");
-        Integer turnover = ComLineInterface.sc.nextInt();
-        System.out.print("annualTurnover created = " + turnover);
-        
-        
-        // working on OrganizationType type (ok)
-        OrganizationType type = OrganizationType.chooseType(ComLineInterface.sc);
-       
-        // set postalAddress address (ok)
-        Address address = new Address(ComLineInterface.sc);
-        
-        Organization org = new Organization(id, name, coordinates, date, turnover, type, address);
-        FileManager.orgList.set(id - 1, org);
-        
-        System.out.println(FileManager.orgList);
+        if (suchIdExist == false)
+        {
+            System.out.println("Such element doesn't exist.");
+        }
     }
-    public static void executeRemoveById(Integer id)
-    {
+    public static void executeRemoveById(Integer id) {
         Predicate<Organization> filter = (organization) -> { return (Integer.valueOf(organization.getId()) == Integer.valueOf(id)); };       
+        
         if ( !FileManager.orgList.removeIf(filter) ) { System.out.println("Such element doesn't exist."); }
         else { System.out.println("Element with id = " + id + " removed successfully."); }
     }
@@ -276,32 +314,44 @@ public class Command
         tfe.printStackTrace();
     }
     }
-    public static void executeScript()
+    public static void executeScript(String fileName)
     {
     
-         //creating File instance to reference text file in Java
-        File text = new File("C:/bin/JavaProjects/Lab_5/ComLineInterface.script.txt");
-     
+        // creating File instance to reference text file in Java
+        File text = new File(fileName); // C:\bin\JavaProjects\Lab_5\Script.txt
+        boolean fileExists = true;
         //Creating ComLineInterface.scanner instance to read File in Java
-        try {ComLineInterface.sc = new Scanner(text);} catch(FileNotFoundException c) {System.out.printf("Файл не найден");}
-        //ComLineInterface.sc = new ComLineInterface.scanner(text);
-        //Reading each line of the file using ComLineInterface.scanner class
-        
-        while(ComLineInterface.sc.hasNextLine()){
-            String inputString = ComLineInterface.sc.nextLine();
-            String command = new String();
-            
-            String[] inputArray = inputString.split(" ");
-            command = inputArray[0];
-            String[] arguments = new String[] {}; // must initialize 'arguments' variable out of if
-    
-            if (inputString.contains(" "))
-            {
-                arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length); // if entered string contains space, count it's afterspace part as args
-            }
-            ComLineInterface.fetchCommand(command, arguments);
+        try
+        {
+            ComLineInterface.sc = new Scanner(text);
+        } 
+        catch(FileNotFoundException c) 
+        {
+            System.out.printf("Файл не найден");
+            fileExists = false; // file is not exists, we must not do other part of command
         }
-        ComLineInterface.sc = new Scanner(System.in);
+        
+        // ComLineInterface.sc = new ComLineInterface.scanner(text);
+        // Reading each line of the file using ComLineInterface.scanner class
+        if (fileExists)
+        {
+            while (ComLineInterface.sc.hasNextLine() && fileExists)
+            {
+                String inputString = ComLineInterface.sc.nextLine();
+                String command = new String();
+                
+                String[] inputArray = inputString.split(" ");
+                command = inputArray[0];
+                String[] arguments = new String[] {}; // must initialize 'arguments' variable out of if
+        
+                if (inputString.contains(" "))
+                {
+                    arguments = Arrays.copyOfRange(inputArray, 1, inputArray.length); // if entered string contains space, count it's afterspace part as args
+                }
+                ComLineInterface.fetchCommand(command, arguments);
+            }
+            ComLineInterface.sc = new Scanner(System.in);
+        }
     }
     public static void executeExit()
     {

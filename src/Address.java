@@ -12,13 +12,14 @@ public class Address
         String street = sc.nextLine();
         if (ComLineInterface.isBlankString(street))
         {
-            this.street = null;
+            this.street = null; // this variable can be null
+            System.out.println("postalAddress created: null");
         }
         else
         {
             this.street = street;
+            System.out.println("postalAddress created: " + street);
         }
-        System.out.println("postalAddress created = " + street);
     }
     public Address(String street)
     {
