@@ -4,9 +4,9 @@ import java.util.*;
 /**
  * Main class. Runs program.
  */
-public class App
+public class Main
 {
-    public App() {}
+    public Main() {}
     
     public static void main(String[] args) throws org.xml.sax.SAXException,IOException,javax.xml.parsers.ParserConfigurationException
     {
