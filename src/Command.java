@@ -238,7 +238,9 @@ public class Command
     }
     public static void executeSave()
     {
-    String xmlFilePath = "C:/bin/JavaProjects/Lab_5/OrganizationsSave.xml";
+    String xmlFilePath = "C:/bin/Git/Lab_5/xmls/OrganizationsSave.xml"; // for windows
+    // Document document = builder.parse(new File(System.getenv("orgSavePath"))); for helios
+
     try
     {    
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
