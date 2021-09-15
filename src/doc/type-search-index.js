@@ -1,1 +1,0 @@
-typeSearchIndex = [{"p":"<Unnamed>","l":"Address"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"ComLineInterface"},{"p":"<Unnamed>","l":"Command"},{"p":"<Unnamed>","l":"Coordinates"},{"p":"<Unnamed>","l":"FileManager"},{"p":"<Unnamed>","l":"Main"},{"p":"<Unnamed>","l":"Organization"},{"p":"<Unnamed>","l":"OrganizationType"}]
