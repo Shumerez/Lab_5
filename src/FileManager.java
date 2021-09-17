@@ -29,7 +29,8 @@ public class FileManager {
         DocumentBuilder builder = factory.newDocumentBuilder();
          
         // Build Document
-        Document document = builder.parse(new File(System.getenv("orgPath")));
+        Document document = builder.parse(new File("C:/bin/Git/Lab_5/xmls/Organizations.xml")); // for windows
+        // Document document = builder.parse(new File(System.getenv("orgPath"))); for helios
          
         // Normalize the XML Structure
         document.getDocumentElement().normalize();
